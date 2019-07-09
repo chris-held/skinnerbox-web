@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
-import { Typography, Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Header from './Header';
 import { EnforceAuth } from './EnforceAuth';
+import ActivityList from './ActivityList';
+import { tasks, rewards } from '../mocks/activities';
 
 const ME = gql`
   query me {
@@ -15,6 +17,7 @@ const ME = gql`
 
 const Dashboard = () => (
   <EnforceAuth>
+    {/* TODO: get relevant data from apollo */}
     <Query query={ME}>
       {({ loading, error, data: { me } = {} }) => {
         if (loading) {
@@ -23,13 +26,31 @@ const Dashboard = () => (
         if (error) {
           return <div>Error!</div>;
         }
+        console.log(me);
         return (
           <Fragment>
-            <Header title="Dashboard" subtitle="Rhymes with Smashboard" />
+            <Header title="0" subtitle="Current Balance" />
             <Container>
-              <Typography variant="body1">
-                {`Hello there! You're logged in as ${me.email}`}
-              </Typography>
+              <Grid container item xs={12} spacing={3}>
+                <Grid item xs={6}>
+                  <ActivityList
+                    title="Tasks"
+                    activities={tasks}
+                    onCreate={() => {}}
+                    onActivityComplete={() => {}}
+                    onActivityEdit={() => {}}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <ActivityList
+                    title="Rewards"
+                    activities={rewards}
+                    onCreate={() => {}}
+                    onActivityComplete={() => {}}
+                    onActivityEdit={() => {}}
+                  />
+                </Grid>
+              </Grid>
             </Container>
           </Fragment>
         );
