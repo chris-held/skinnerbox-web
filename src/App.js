@@ -28,6 +28,14 @@ export const theme = createMuiTheme({
       },
     },
   },
+  mixins: {
+    right: {
+      marginLeft: 'auto',
+    },
+    bottom: {
+      marginTop: 'auto',
+    },
+  },
 });
 
 function App() {
